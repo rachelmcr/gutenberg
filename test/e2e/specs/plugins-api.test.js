@@ -5,6 +5,7 @@ import {
 	clickOnMoreMenuItem,
 	openDocumentSettingsSidebar,
 	newPost,
+	publishPost,
 } from '../support/utils';
 import { activatePlugin, deactivatePlugin } from '../support/plugins';
 
@@ -24,6 +25,22 @@ describe( 'Using Plugins API', () => {
 
 			const pluginPostStatusInfoText = await page.$eval( '.edit-post-post-status .my-post-status-info-plugin', ( el ) => el.innerText );
 			expect( pluginPostStatusInfoText ).toBe( 'My post status info' );
+		} );
+	} );
+
+	describe( 'Publish Panel', () => {
+		it( 'Should render publish panel inside Pre-publish sidebar', async () => {
+			await page.click( '.editor-post-publish-panel__toggle' );
+
+			const pluginPublishPanelText = await page.$eval( '.editor-post-publish-panel .my-publish-panel-plugin__pre', ( el ) => el.innerText );
+			expect( pluginPublishPanelText ).toBe( 'My pre publish panel' );
+		} );
+
+		it( 'Should render publish panel inside Post-publish sidebar', async () => {
+			await publishPost();
+
+			const pluginPublishPanelText = await page.$eval( '.editor-post-publish-panel .my-publish-panel-plugin__post', ( el ) => el.innerText );
+			expect( pluginPublishPanelText ).toBe( 'My post publish panel' );
 		} );
 	} );
 
