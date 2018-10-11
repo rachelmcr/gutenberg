@@ -53,6 +53,14 @@ function isShowingInput( props, state ) {
 	return props.addingLink || state.editLink;
 }
 
+function safeDecodeURI( uri ) {
+	try {
+		return decodeURI( uri );
+	} catch ( uriError ) {
+		return uri;
+	}
+}
+
 class LinkContainer extends Component {
 	constructor() {
 		super( ...arguments );
@@ -215,7 +223,7 @@ class LinkContainer extends Component {
 										className="editor-format-toolbar__link-value"
 										href={ href }
 									>
-										{ filterURLForDisplay( decodeURI( href ) ) }
+										{ filterURLForDisplay( safeDecodeURI( href ) ) }
 									</ExternalLink>
 									<IconButton icon="edit" label={ __( 'Edit' ) } onClick={ this.editLink } />
 									<IconButton
