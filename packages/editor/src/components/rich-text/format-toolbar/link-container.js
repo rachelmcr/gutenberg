@@ -53,6 +53,14 @@ function isShowingInput( props, state ) {
 	return props.addingLink || state.editLink;
 }
 
+/**
+ * Safely decodes a URI with `decodeURI`. Returns the URI unmodified if
+ * `decodeURI` throws an error.
+ *
+ * @param {string} uri URI to encode.
+ *
+ * @return {string} Encoded URI if possible.
+ */
 function safeDecodeURI( uri ) {
 	try {
 		return decodeURI( uri );
