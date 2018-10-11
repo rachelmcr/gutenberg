@@ -12,7 +12,7 @@ import {
 	withSpokenMessages,
 } from '@wordpress/components';
 import { ESCAPE, LEFT, RIGHT, UP, DOWN, BACKSPACE, ENTER } from '@wordpress/keycodes';
-import { prependHTTP } from '@wordpress/url';
+import { prependHTTP, safeDecodeURI } from '@wordpress/url';
 import {
 	create,
 	insert,
@@ -51,22 +51,6 @@ function createLinkFormat( { href, opensInNewWindow } ) {
 
 function isShowingInput( props, state ) {
 	return props.addingLink || state.editLink;
-}
-
-/**
- * Safely decodes a URI with `decodeURI`. Returns the URI unmodified if
- * `decodeURI` throws an error.
- *
- * @param {string} uri URI to encode.
- *
- * @return {string} Encoded URI if possible.
- */
-function safeDecodeURI( uri ) {
-	try {
-		return decodeURI( uri );
-	} catch ( uriError ) {
-		return uri;
-	}
 }
 
 class LinkContainer extends Component {

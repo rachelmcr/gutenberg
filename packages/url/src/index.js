@@ -48,3 +48,35 @@ export function prependHTTP( url ) {
 
 	return url;
 }
+
+/**
+ * Safely decodes a URI with `decodeURI`. Returns the URI unmodified if
+ * `decodeURI` throws an error.
+ *
+ * @param {string} uri URI to decode.
+ *
+ * @return {string} Decoded URI if possible.
+ */
+export function safeDecodeURI( uri ) {
+	try {
+		return decodeURI( uri );
+	} catch ( uriError ) {
+		return uri;
+	}
+}
+
+/**
+ * Safely encodes a URI with `encodeURI`. Returns the URI unmodified if
+ * `encodeURI` throws an error.
+ *
+ * @param {string} uri URI to encode.
+ *
+ * @return {string} Encoded URI if possible.
+ */
+export function safeEncodeURI( uri ) {
+	try {
+		return encodeURI( uri );
+	} catch ( uriError ) {
+		return uri;
+	}
+}
