@@ -19,6 +19,7 @@ export { metadata, name };
 export const settings = {
 	title: __( 'Page Break' ),
 	description: __( 'Separate your content into a multi-page experience.' ),
+	testID: 'pageBreakBlock',
 	icon,
 	keywords: [ __( 'next page' ), __( 'pagination' ) ],
 	supports: {

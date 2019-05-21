@@ -118,6 +118,7 @@ class ParagraphEdit extends Component {
 						)
 				}
 				onAccessibilityTap={ this.props.onFocus }
+				testID="paragraphBlock"
 			>
 				<RichText
 					identifier="content"

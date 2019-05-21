@@ -36,6 +36,7 @@ const supports = {
 export const settings = {
 	title: __( 'Paragraph' ),
 	description: __( 'Start with the building block of all narrative.' ),
+	testID: 'paragraphBlock',
 	icon,
 	keywords: [ __( 'text' ) ],
 	supports,

@@ -19,6 +19,7 @@ export { metadata, name };
 export const settings = {
 	title: _x( 'More', 'block name' ),
 	description: __( 'Content before this block will be shown in the excerpt on your archives page.' ),
+	testID: 'moreBlock',
 	icon,
 	supports: {
 		customClassName: false,

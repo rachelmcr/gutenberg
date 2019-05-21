@@ -56,6 +56,13 @@ function MediaPlaceholder( props ) {
 		accessibilityHint = __( 'Double tap to select a video' );
 	}
 
+	let testID = 'mediaBlock';
+	if ( isImage ) {
+		testID = 'imageBlock';
+	} else if ( isVideo ) {
+		testID = 'videoBlock';
+	}
+
 	return (
 		<MediaUpload
 			mediaType={ mediaType }
@@ -71,6 +78,7 @@ function MediaPlaceholder( props ) {
 						accessibilityRole={ 'button' }
 						accessibilityHint={ accessibilityHint }
 						onPress={ open }
+						testID={ testID }
 					>
 						<View style={ styles.emptyStateContainer }>
 							{ getMediaOptions() }

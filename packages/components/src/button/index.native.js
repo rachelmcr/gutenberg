@@ -56,6 +56,7 @@ export default function Button( props ) {
 		onClick,
 		disabled,
 		hint,
+		testIdentifier,
 		'aria-disabled': ariaDisabled,
 		'aria-label': ariaLabel,
 		'aria-pressed': ariaPressed,
@@ -85,6 +86,7 @@ export default function Button( props ) {
 			accessibilityStates={ states }
 			accessibilityRole={ 'button' }
 			accessibilityHint={ hint }
+			testID={ testIdentifier }
 			onPress={ onClick }
 			style={ styles.container }
 			disabled={ isDisabled }
