@@ -19,7 +19,7 @@ export { metadata, name };
 export const settings = {
 	title: __( 'List' ),
 	description: __( 'Create a bulleted or numbered list.' ),
-	testID: 'listBlock',
+	testID: 'list',
 	icon,
 	keywords: [ __( 'bullet list' ), __( 'ordered list' ), __( 'numbered list' ) ],
 	supports: {

@@ -20,7 +20,7 @@ export { metadata, name };
 export const settings = {
 	title: __( 'Image' ),
 	description: __( 'Insert an image to make a visual statement.' ),
-	testID: 'imageBlock',
+	testID: 'image',
 	icon,
 	keywords: [
 		'img', // "img" is not translated as it is intended to reflect the HTML <img> tag.
