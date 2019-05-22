@@ -85,6 +85,7 @@ class PostTitle extends Component {
 							title
 						)
 				}
+				testID="postTitle"
 			>
 				<RichText
 					tagName={ 'p' }

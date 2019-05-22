@@ -18,6 +18,7 @@ export { metadata, name };
 export const settings = {
 	title: __( 'Heading' ),
 	description: __( 'Introduce new sections and organize content to help visitors (and search engines) understand the structure of your content.' ),
+	testID: 'headingBlock',
 	icon: 'heading',
 	keywords: [ __( 'title' ), __( 'subtitle' ) ],
 	supports: {

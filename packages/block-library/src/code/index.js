@@ -19,6 +19,7 @@ export { metadata, name };
 export const settings = {
 	title: __( 'Code' ),
 	description: __( 'Display code snippets that respect your spacing and tabs.' ),
+	testID: 'codeBlock',
 	icon,
 	supports: {
 		html: false,
