@@ -11,12 +11,14 @@ import {
 	mediaUploadSync,
 	requestImageFailedRetryDialog,
 	requestImageUploadCancelDialog,
+	requestImageUploadCancel,
 } from 'react-native-gutenberg-bridge';
 
 /**
  * WordPress dependencies
  */
 import {
+	Icon,
 	Toolbar,
 	ToolbarButton,
 } from '@wordpress/components';
@@ -30,7 +32,6 @@ import {
 } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import { isURL } from '@wordpress/url';
-import { doAction, hasAction } from '@wordpress/hooks';
 
 /**
  * Internal dependencies
@@ -69,9 +70,8 @@ class VideoEdit extends React.Component {
 	}
 
 	componentWillUnmount() {
-		// this action will only exist if the user pressed the trash button on the block holder
-		if ( hasAction( 'blocks.onRemoveBlockCheckUpload' ) && this.state.isUploadInProgress ) {
-			doAction( 'blocks.onRemoveBlockCheckUpload', this.props.attributes.id );
+		if ( this.state.isUploadInProgress ) {
+			requestImageUploadCancel( this.props.attributes.id );
 		}
 	}
 
@@ -130,10 +130,10 @@ class VideoEdit extends React.Component {
 
 	getIcon( isRetryIcon, isUploadInProgress ) {
 		if ( isRetryIcon ) {
-			return <SvgIconRetry fill={ style.icon.fill } />;
+			return <Icon icon={ SvgIconRetry } { ...style.icon } />;
 		}
 
-		return <SvgIcon fill={ isUploadInProgress ? style.iconUploading.fill : style.icon.fill } />;
+		return <Icon icon={ SvgIcon } { ...( isUploadInProgress ? style.iconUploading : style.icon ) } />;
 	}
 
 	render() {
@@ -179,11 +179,11 @@ class VideoEdit extends React.Component {
 						{ toolbarEditButton }
 					</BlockControls>
 					<InspectorControls>
-						<ToolbarButton
+						{ false && <ToolbarButton //Not rendering settings button until it has an action
 							label={ __( 'Video Settings' ) }
 							icon="admin-generic"
 							onClick={ () => ( null ) }
-						/>
+						/> }
 					</InspectorControls>
 					<MediaUploadProgress
 						mediaId={ id }
@@ -212,16 +212,17 @@ class VideoEdit extends React.Component {
 							return (
 								<View onLayout={ this.onVideoContanerLayout } style={ containerStyle }>
 									{ showVideo && isURL( src ) &&
-										<Video
-											isSelected={ isSelected }
-											style={ [ videoStyle, { backgroundColor: 'black' } ] }
-											source={ { uri: src } }
-											paused={ true }
-											muted={ true }
-										/>
+										<View style={ style.videoContainer }>
+											<Video
+												isSelected={ isSelected }
+												style={ videoStyle }
+												source={ { uri: src } }
+												paused={ true }
+											/>
+										</View>
 									}
 									{ ! showVideo &&
-										<View style={ { ...videoStyle, ...style.placeholder } }>
+										<View style={ { height: videoContainerHeight, width: '100%', ...style.placeholder } }>
 											{ videoContainerHeight > 0 && iconContainer }
 											{ isUploadFailed && <Text style={ style.uploadFailedText }>{ retryMessage }</Text> }
 										</View>

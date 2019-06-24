@@ -1,20 +1,52 @@
 /**
+ * External dependencies
+ */
+import { defaultTo } from 'lodash';
+
+/**
  * WordPress dependencies
  */
+import { useMemo } from '@wordpress/element';
+import { uploadMedia } from '@wordpress/media-utils';
 import { compose } from '@wordpress/compose';
 import { Panel, PanelBody } from '@wordpress/components';
 import {
 	BlockEditorProvider,
 	BlockList,
+	ObserveTyping,
+	WritingFlow,
 } from '@wordpress/block-editor';
 import { withDispatch, withSelect } from '@wordpress/data';
 
+function getBlockEditorSettings( blockEditorSettings, hasUploadPermissions ) {
+	if ( ! hasUploadPermissions ) {
+		return blockEditorSettings;
+	}
+	const mediaUploadBlockEditor = ( { onError, ...argumentsObject } ) => {
+		uploadMedia( {
+			wpAllowedMimeTypes: blockEditorSettings.allowedMimeTypes,
+			onError: ( { message } ) => onError( message ),
+			...argumentsObject,
+		} );
+	};
+	return {
+		...blockEditorSettings,
+		__experimentalMediaUpload: mediaUploadBlockEditor,
+	};
+}
+
 function WidgetArea( {
+	blockEditorSettings,
 	blocks,
 	initialOpen,
 	updateBlocks,
 	widgetAreaName,
+	hasUploadPermissions,
 } ) {
+	const settings = useMemo(
+		() => getBlockEditorSettings( blockEditorSettings, hasUploadPermissions ),
+		[ blockEditorSettings, hasUploadPermissions ]
+	);
 	return (
 		<Panel className="edit-widgets-widget-area">
 			<PanelBody
@@ -25,8 +57,13 @@ function WidgetArea( {
 					value={ blocks }
 					onInput={ updateBlocks }
 					onChange={ updateBlocks }
+					settings={ settings }
 				>
-					<BlockList />
+					<WritingFlow>
+						<ObserveTyping>
+							<BlockList />
+						</ObserveTyping>
+					</WritingFlow>
 				</BlockEditorProvider>
 			</PanelBody>
 		</Panel>
@@ -39,11 +76,13 @@ export default compose( [
 			getBlocksFromWidgetArea,
 			getWidgetArea,
 		} = select( 'core/edit-widgets' );
+		const { canUser } = select( 'core' );
 		const blocks = getBlocksFromWidgetArea( id );
 		const widgetAreaName = ( getWidgetArea( id ) || {} ).name;
 		return {
 			blocks,
 			widgetAreaName,
+			hasUploadPermissions: defaultTo( canUser( 'create', 'media' ), true ),
 		};
 	} ),
 	withDispatch( ( dispatch, { id } ) => {
